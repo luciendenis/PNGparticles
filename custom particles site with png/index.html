@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/mainstyle.css">
+  </head>
+  <body>
+    <canvas id="backgroundCanvas"></canvas>
+    <canvas id="renderingCanvas"></canvas>
+    <canvas id="drawingCanvas"></canvas>
+    <canvas id="blurCanvas"></canvas>
+
+    <div id="interface">
+      <h1>Particles PNG</h1>
+      <h2 class="menu-closed" onclick="showHide(this,'shapeParameters')">Shape</h2>
+      <div id="shapeParameters" class="hideable hidden">
+        Png shape:
+        <select onchange="shapeChange()" id="shChoice">
+          <option value="bird" selected="selected">Bird</option>
+          <option value="wolf">Wolf</option>
+        </select>
+        Size:
+        <input onchange="shapeChange()" type="range" id="shSize" value="1" max="3" min="1" step="0.1">
+        Follow mouse:
+        <input onchange="shapeChange()" type="range" id="shFollowMouse" value="0" max="1" min="0" step="1" class="switch">
+        X position:
+        <input onchange="shapeChange()" type="range" id="shXpos" value="1" max="1" min="0" step="0.1">
+        X speed:
+        <input onchange="shapeChange()" type="range" id="shXspeed" value="-5" max="30" min="-30" step="1">
+        Y position:
+        <input onchange="shapeChange()" type="range" id="shYpos" value="0.5" max="1" min="0" step="0.1">
+        Y speed:
+        <input onchange="shapeChange()" type="range" id="shYspeed" value="0" max="30" min="-30" step="1">
+        Animation speed:
+        <input onchange="shapeChange()" type="range" id="shAspeed" value="8" max="10" min="0" step="1">
+      </div>
+      <h2 class="menu-closed" onclick="showHide(this,'backgroundParameters')">Background</h2>
+      <div id="backgroundParameters" class="hideable hidden">
+        Gradient:
+        <input onchange="bgChange()" type="range" id="bgGradient" value="0" max="100" min="0" step="1">
+        Hue:
+        <input onchange="bgChange()" type="range" id="bgHue" value="0" max="360" min="0" step="1">
+        Saturation:
+        <input onchange="bgChange()" type="range" id="bgSaturation" value="1" max="10" min="0" step="0.1">
+        Brightness:
+        <input onchange="bgChange()" type="range" id="bgBrightness" value="100" max="200" min="0" step="1">
+      </div>
+      <h2 class="menu-closed" onclick="showHide(this,'mainParticlesParameters')">Main particles</h2>
+      <div id="mainParticlesParameters" class="hideable hidden">
+        Colors:
+        <select onchange="particlesChange()" id="mpColor">
+          <option value="flamesColors" selected="selected">Flames</option>
+          <option value="pinkColors">Cherry blossom</option>
+          <option value="rainbowColors">Rainbow</option>
+        </select>
+        Hue:
+        <input onchange="particlesChange()" type="range" id="mpHue" value="0" max="360" min="0" step="1">
+        Progressive color:
+        <input onchange="particlesChange()" type="range" id="mpColorP" value="1" max="1" min="0" step="1" class="switch switch-on">
+        Creation interval:
+        <input onchange="particlesChange()" type="range" id="mpCreationInterval" value="25" max="200" min="10" step="5">
+        Density:
+        <input onchange="particlesChange()" type="range" id="mpDensity" value="45" max="50" min="5" step="1">
+        Position randomness:
+        <input onchange="particlesChange()" type="range" id="mpPosR" value="10" max="50" min="0" step="1">
+        X speed:
+        <input onchange="particlesChange()" type="range" id="mpXspeed" value="3" max="10" min="-10" step="1">
+        X speed randomness:
+        <input onchange="particlesChange()" type="range" id="mpXspeedR" value="0.5" max="5" min="0" step="0.1">
+        Y speed:
+        <input onchange="particlesChange()" type="range" id="mpYspeed" value="0" max="10" min="-10" step="1">
+        Y speed randomness:
+        <input onchange="particlesChange()" type="range" id="mpYspeedR" value="0.5" max="5" min="0" step="0.1">
+        Size:
+        <input onchange="particlesChange()" type="range" id="mpSize" value="4" max="10" min="1" step="1">
+        Size randomness:
+        <input onchange="particlesChange()" type="range" id="mpSizeR" value="0.5" max="10" min="0" step="0.5">
+        Size decrease ratio:
+        <input onchange="particlesChange()" type="range" id="mpSizeDR" value="0.03" max="0.15" min="0.003" step="0.001">
+      </div>
+      <h2 class="menu-closed" onclick="showHide(this,'secondaryParticlesParameters')">Secondary particles</h2>
+      <div id="secondaryParticlesParameters" class="hideable hidden">
+        Proportion:
+        <input onchange="particlesChange()" type="range" id="spProp" value="0.1" max="0.5" min="0" step="0.001">
+        X speed:
+        <input onchange="particlesChange()" type="range" id="spXspeed" value="2" max="10" min="-10" step="1">
+        X speed randomness:
+        <input onchange="particlesChange()" type="range" id="spXspeedR" value="1" max="5" min="0" step="0.1">
+        Y speed:
+        <input onchange="particlesChange()" type="range" id="spYspeed" value="1.5" max="10" min="-10" step="1">
+        Y speed randomness:
+        <input onchange="particlesChange()" type="range" id="spYspeedR" value="1" max="5" min="0" step="0.1">
+        Size:
+        <input onchange="particlesChange()" type="range" id="spSize" value="2" max="10" min="1" step="1">
+        Size randomness:
+        <input onchange="particlesChange()" type="range" id="spSizeR" value="0.5" max="10" min="0" step="0.5">
+        Size decrease ratio:
+        <input onchange="particlesChange()" type="range" id="spSizeDR" value="0.005" max="0.15" min="0.003" step="0.001">
+      </div>
+      <h2 class="menu-closed" onclick="showHide(this,'glowingShapeParameters')">Glowing shape</h2>
+      <div id="glowingShapeParameters" class="hideable hidden">
+      Hue:
+        <input onchange="bcChange()" type="range" id="bcHue" value="0" max="360" min="0" step="1">
+        Saturation:
+        <input onchange="bcChange()" type="range" id="bcSaturation" value="3" max="10" min="0" step="0.1">
+        Brightness:
+        <input onchange="bcChange()" type="range" id="bcBrightness" value="120" max="200" min="0" step="1">
+        Blur:
+        <input onchange="bcChange()" type="range" id="bcBlur" value="50" max="100" min="0" step="1">
+      </div>
+    </div>
+
+    <script type="text/javascript" src="scripts/mainscript.js"></script>
+  </body>
+</html>
